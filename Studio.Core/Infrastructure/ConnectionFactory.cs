@@ -6,11 +6,8 @@ namespace Studio.Core.Infrastructure
 {
     public class ConnectionFactory : Disposable, IConnectionFactory
     {
-#if DEBUG
+
         private readonly string _connectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog =SocialGoal; User ID = m7-app; Password=123456;";
-#else
-         private readonly string _connectionString = "Data Source=118.70.185.190,1433;Initial Catalog =SocialGoal; User ID = linhdk0712; Password=213456789;" ;
-#endif
 
         private IDbConnection _dbConnection;
         // TODO : Khởi tạo kết nối đến cơ sở dữ liệu

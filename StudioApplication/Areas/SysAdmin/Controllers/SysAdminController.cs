@@ -33,6 +33,7 @@ namespace StudioApplication.Areas.SysAdmin.Controllers
                          select new StudioActiveViewModel()
                          {
                              StudioId = a.StudioId,
+                             StudioActiveId = a.StudioActiveId,
                              StudioCode = b.StudioCode,
                              StudioName = b.StudioName,
                              SkypeName = b.SkypeName,
@@ -46,7 +47,8 @@ namespace StudioApplication.Areas.SysAdmin.Controllers
 
             return Json(new
             {
-                data = result
+                data = result,
+                status = true
             }, JsonRequestBehavior.AllowGet);
         }
     }

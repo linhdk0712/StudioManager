@@ -1,5 +1,5 @@
-﻿using Studio.Entities.Config;
-using System.Data.Entity;
+﻿using System.Data.Entity;
+using System.Threading;
 
 namespace Studio.Entities
 {
@@ -7,6 +7,7 @@ namespace Studio.Entities
     {
         public StudioDbContext() : base("StudioConnectionString")
         {
+           
         }
 
         public DbSet<Studio> Studios { get; set; }
