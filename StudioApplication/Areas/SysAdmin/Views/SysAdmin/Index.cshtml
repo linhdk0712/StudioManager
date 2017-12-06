@@ -4,63 +4,110 @@
 }
 <h4>Danh sách ảnh viện</h4>
 
-<div class="container">
-    <div class="col-lg-12 ">
-        <a class="btn btn-primary" style="margin-bottom:20px; margin-top:20px;">Add New Studio</a>
-        <table class="table table-bordered ">
-            <thead>
-                <tr>
-                    <th>Studio Name</th>
-                    <th>Phone Number</th>
-                    <th>Email</th>
-                    <th>Address</th>
-                    <th>Active From</th>
-                    <th>Active To</th>
-                </tr>
-            </thead>
-            <tbody id="StudioActive"></tbody>
-        </table>
+<div class="container-fluid tablecontainer">
+    <div class="col-md-12">
+        <a class="btn btn-success" style="margin-bottom: 20px; margin-top: 20px;">Add New Studio</a>
     </div>
+
+    <table class="table table-bordered " id="StudioActive">
+        <thead>
+            <tr>
+                <th>StudioName</th>
+                <th>PhoneNumber</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>ActiveFrom</th>
+                <th>ActiveTo</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+    </table>
 </div>
-<script id="template" type="x-tmpl-mustache">
-    <tr>
-        <th>{{StudioName}}</th>
-        <th>{{PhoneNumber}}</th>
-        <th>{{Email}}</th>
-        <th>{{Address}}</th>
-        <th>{{ActiveFrom}}</th>
-        <th>{{ActiveTo}}</th>
-    </tr>
-</script>
 
 @section Scripts{
-<script src="~/Scripts/mustache.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $.ajax({
-                url: '/SysAdmin/SysAdmin/GetStudioActive',
-                type: 'GET',
-                dataType: 'json',
-                success: function (response) {
-                    if (response.status) {
-                        var results = response.data;
-                        var html = '';
-                        var template = $('#template').html();
-                        $.each(results, function (i, item) {
-                            html += Mustache.render(template, {
-                                StudioName: item.StudioName,
-                                PhoneNumber: item.PhoneNumber,
-                                Email: item.Email,
-                                Address: item.Address,
-                                ActiveFrom: item.ActiveFrom,
-                                ActiveTo: item.ActiveTo
-                            });
-                        });
-                        $('#StudioActive').html(html);
+            var oTable = $('#StudioActive').DataTable({
+                "ajax": {
+                    "url": '/SysAdmin/SysAdmin/GetStudioActive',
+                    "type": "get",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "StudioName", "autoWidth": true },
+                    { "data": "PhoneNumber", "autoWidth": true },
+                    { "data": "Email", "autoWidth": true },
+                    { "data": "Address", "autoWidth": true },
+                    { "data": "ActiveFrom", "autoWidth": true },
+                    { "data": "ActiveTo", "autoWidth": true },
+                    {
+                        "data": "StudioActiveId",
+                        "width": "50px",
+                        "render": function(data) {
+                            return '<a class="btn btn-warning" href="@Url.Action("Edit","SysAdmin")/' + data + '">Edit</a>';
+                        }
+                    },
+                    {
+                        "data": "StudioActiveId",
+                        "width": "50px",
+                        "render": function(data) {
+                            return '<a class="popup btn btn-danger" href="@Url.Action("Delete","SysAdmin")/' + data + '">Delete</a>';
+                        }
                     }
-                }
+                ]
             });
-        });
+            $('.tablecontainer').on('click',
+                'a.popup',
+                function(e) {
+                    e.preventDefault();
+                    openPopup($(this).attr('href'));
+                });
+            function openPopup(pageUrl) {
+                var $pageContent = $('<div />');
+                $pageContent.load(pageUrl, function () {
+                    $('#popupForm', $pageContent).removeData('validator');
+                    $('#popupForm', $pageContent).removeData('unobtrusiveValidation');
+                    $.validator.unobtrusive.parse('form');
+
+                });
+
+                $dialog = $('<div class="popupWindow" style="overflow:auto"></div>')
+                    .html($pageContent)
+                    .dialog({
+                        draggable: false,
+                        autoOpen: false,
+                        resizable: false,
+                        model: true,
+                        title: 'Confirm Delete',
+                        height: 550,
+                        width: 600,
+                        close: function() {
+                            $dialog.dialog('destroy').remove();
+                        }
+                    });
+
+                $('.popupWindow').on('submit',
+                    '#popupForm',
+                    function(e) {
+                        var url = $('#popupForm')[0].action;
+                        $.ajax({
+                            type: "POST",
+                            url: url,
+                            data: $('#popupForm').serialize(),
+                            success: function(data) {
+                                if (data.status) {
+                                    $dialog.dialog('close');
+                                    oTable.ajax.reload();
+                                }
+                            }
+                        });
+
+                        e.preventDefault();
+                    });
+                $dialog.dialog('open');
+            }
+        })
     </script>
 
 }

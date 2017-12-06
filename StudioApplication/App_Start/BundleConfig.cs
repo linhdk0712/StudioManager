@@ -7,6 +7,7 @@ namespace StudioApplication
         // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+           
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
@@ -17,8 +18,12 @@ namespace StudioApplication
             // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
+
             bundles.Add(new ScriptBundle("~/bundles/mustache").Include(
                        "~/Scripts/mustache.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/pagination").Include(
+                       "~/Scripts/jquery.twbsPagination.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
@@ -27,6 +32,10 @@ namespace StudioApplication
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+
+            BundleTable.EnableOptimizations = true;
+
         }
     }
 }

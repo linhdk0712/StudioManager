@@ -12,7 +12,7 @@ namespace StudioApplication.Areas.SysAdmin.Models
             
         }
         public int    StudioId { get; set; }
-        public int StudioActiveId { get; set; }
+        public int    StudioActiveId { get; set; }
         public string StudioCode { get; set; } // nvarchar(30), not null
 
         public string StudioName { get; set; } // nvarchar(max), not null

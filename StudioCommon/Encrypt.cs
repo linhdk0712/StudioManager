@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace StudioCommon
@@ -6,6 +7,8 @@ namespace StudioCommon
     public interface IEncrypt
     {
         string EncryptMd5(string data);
+        int EncodeId(int value);
+        int DecodeId(int value);
     }
     public class Encrypt : IEncrypt
     {
@@ -20,9 +23,17 @@ namespace StudioCommon
             {
                 s.Append(p.ToString("x").ToLower());
             }
-            return s.ToString();
+           return s.ToString();
         }
 
-        
+        public int EncodeId(int value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int DecodeId(int value)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,9 +1,13 @@
-﻿using System.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using Studio.Services;
 using StudioApplication.Areas.SysAdmin.Models;
+using StudioCommon;
 
 namespace StudioApplication.Areas.SysAdmin.Controllers
 {
@@ -11,10 +15,12 @@ namespace StudioApplication.Areas.SysAdmin.Controllers
     {
         private readonly IStudioActiveService _studioActiveService;
         private readonly IStudioService _studioService;
-        public SysAdminController(IStudioActiveService studioActiveService, IStudioService studioService)
+        private readonly IEncrypt _encrypt;
+        public SysAdminController(IStudioActiveService studioActiveService, IStudioService studioService, IEncrypt encrypt)
         {
             _studioActiveService = studioActiveService;
             _studioService = studioService;
+            _encrypt = encrypt;
         }
         // GET: SysAdmin/SysAdmin
         public ActionResult Index()
@@ -23,6 +29,34 @@ namespace StudioApplication.Areas.SysAdmin.Controllers
         }
         [HttpGet]
         public JsonResult GetStudioActive()
+        {
+            var result = GetStudioActiveViewModels();
+            return Json(new
+            {
+                data = result,
+                status = true
+            }, JsonRequestBehavior.AllowGet);
+        }
+        [AllowAnonymous]
+        public JsonResult Edit(int id)
+        {
+            var model = GetStudioActiveViewModels();
+            var result = model.FirstOrDefault(x => x.StudioActiveId == id);
+            return Json(new
+            {
+               status = result
+            }, JsonRequestBehavior.AllowGet);
+        }
+        [AllowAnonymous]
+        public JsonResult Delete(int id)
+        {
+            return Json(new
+            {
+                status = id
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public IEnumerable<StudioActiveViewModel> GetStudioActiveViewModels()
         {
             const string SQL_STUDIO_ACTIVE = "select * from StudioActives";
             const string SQL_STUDIO = "select * from Studios";
@@ -44,12 +78,7 @@ namespace StudioApplication.Areas.SysAdmin.Controllers
                              ActiveFrom = a.ActiveFrom,
                              ActiveTo = a.ActiveTo
                          };
-
-            return Json(new
-            {
-                data = result,
-                status = true
-            }, JsonRequestBehavior.AllowGet);
+            return result;
         }
     }
 }
