@@ -48,6 +48,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseEntity\BaseEntity.cs" />
+    <Compile Include="BaseEntity\ICreateAudit.cs" />
+    <Compile Include="BaseEntity\IModifiAudit.cs" />
+    <Compile Include="BaseEntity\IPrimaryKey.cs" />
+    <Compile Include="BaseEntity\IStatus.cs" />
+    <Compile Include="BaseEntity\PrimaryKey.cs" />
     <Compile Include="Business.cs" />
     <Compile Include="Config\BusinessConfig.cs" />
     <Compile Include="Config\GrantPermissionConfig.cs" />
@@ -55,9 +60,9 @@
     <Compile Include="Config\StudioConfig.cs" />
     <Compile Include="Config\StudioUserConfig.cs" />
     <Compile Include="GrantPermission.cs" />
-    <Compile Include="Migrations\201712040645422_Khoi-Tao-DB-v2.cs" />
-    <Compile Include="Migrations\201712040645422_Khoi-Tao-DB-v2.Designer.cs">
-      <DependentUpon>201712040645422_Khoi-Tao-DB-v2.cs</DependentUpon>
+    <Compile Include="Migrations\201712140708439_InitDb.cs" />
+    <Compile Include="Migrations\201712140708439_InitDb.Designer.cs">
+      <DependentUpon>201712140708439_InitDb.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Permission.cs" />
@@ -73,8 +78,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201712040645422_Khoi-Tao-DB-v2.resx">
-      <DependentUpon>201712040645422_Khoi-Tao-DB-v2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201712140708439_InitDb.resx">
+      <DependentUpon>201712140708439_InitDb.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

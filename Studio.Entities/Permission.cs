@@ -5,22 +5,28 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Studio.Entities.BaseEntity;
 
 namespace Studio.Entities
 {
     // TODO : Lưu trữ các action
     [Table("Permissions")]
-    public class Permission : BaseEntity.BaseEntity
+    public class Permission 
     {
-        
+        public Permission()
+        {
+          
+        }
         [Key]
-        public int PermissionId { get; set; }
-
+        public Guid PermissionId { get; set; }
+        [Column(TypeName = "varchar")]
+        [MaxLength(50)]
         public string PermissionName { get; set; }
-
-        public string Description { get; set; }
        
-        public int BusId { get; set; }
+        [MaxLength(500)]
+        public string Description { get; set; }
+
+        public Guid BusId { get; set; }
 
         public virtual Business Business { get; set; }
 

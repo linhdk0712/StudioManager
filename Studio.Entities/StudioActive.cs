@@ -5,23 +5,32 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Studio.Entities.BaseEntity;
 
 namespace Studio.Entities
 {
     [Table("StudioActives")]
-    public class StudioActive
+    public class StudioActive : ICreateAudit,IStatus,IModifiAudit
     {
-        
+        public StudioActive()
+        {
+           
+        }
         [Key]
-        public int StudioActiveId { get; set; }
+        public Guid StudioActiveId { get; set; }
 
         public DateTime? ActiveFrom { get; set; }
 
         public DateTime? ActiveTo { get; set; }
 
-        
-        public int StudioId { get; set; }
+
+        public Guid StudioId { get; set; }
 
         public virtual Studio Studio { get; set; }
+        public DateTime CreateDate { get; set; }
+        public string CreateBy { get; set; }
+        public bool Status { get; set; }
+        public DateTime? ModifyDate { get; set; }
+        public string ModifyBy { get; set; }
     }
 }

@@ -5,34 +5,51 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Studio.Entities.BaseEntity;
 
 namespace Studio.Entities
 {
     [Table("StudioUsers")]
-    public class StudioUser : BaseEntity.BaseEntity
+    public class StudioUser :  ICreateAudit, IStatus, IModifiAudit
     {
+        public StudioUser()
+        {
+          
+        }
         
         [Key]
-        public int UserId { get; set; }
-
+        public Guid UserId { get; set; }
+        [Column(TypeName = "varchar")]
+        [MaxLength(30)]
         public string UserName { get; set; }
-
+        [MaxLength(30)]
         public string PassWord { get; set; }
-
+       
+        [MaxLength(255)]
         public string FullName { get; set; }
-
+        [DataType(DataType.PhoneNumber)]
+        [MaxLength(20)]
         public string PhoneNumber { get; set; }
-
+       
+        [MaxLength(500)]
         public string Address { get; set; }
-
+        [DataType(DataType.EmailAddress)]
+        [MaxLength(100)]
         public string Email { get; set; }
-
+        [DataType(DataType.ImageUrl)]
+        [MaxLength(500)]
         public string Avatar { get; set; }
 
         public bool IsAdmin { get; set; }
-       
-        public int StudioId { get; set; }
+
+        public Guid StudioId { get; set; }
 
         public virtual  Studio Studio { get; set; }
+
+        public DateTime CreateDate { get; set; }
+        public string CreateBy { get; set; }
+        public bool Status { get; set; }
+        public DateTime? ModifyDate { get; set; }
+        public string ModifyBy { get; set; }
     }
 }

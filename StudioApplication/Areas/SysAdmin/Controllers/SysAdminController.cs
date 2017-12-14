@@ -38,7 +38,7 @@ namespace StudioApplication.Areas.SysAdmin.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
         [AllowAnonymous]
-        public JsonResult Edit(int id)
+        public JsonResult Edit(Guid id)
         {
             var model = GetStudioActiveViewModels();
             var result = model.FirstOrDefault(x => x.StudioActiveId == id);
@@ -56,7 +56,7 @@ namespace StudioApplication.Areas.SysAdmin.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
-        public IEnumerable<StudioActiveViewModel> GetStudioActiveViewModels()
+        private IEnumerable<StudioActiveViewModel> GetStudioActiveViewModels()
         {
             const string SQL_STUDIO_ACTIVE = "select * from StudioActives";
             const string SQL_STUDIO = "select * from Studios";

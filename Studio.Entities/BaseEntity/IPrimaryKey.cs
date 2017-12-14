@@ -6,13 +6,8 @@ using System.Threading.Tasks;
 
 namespace Studio.Entities.BaseEntity
 {
-    public class BaseEntity 
+    public interface IPrimaryKey
     {
-        protected BaseEntity()
-        {
-            
-        }
-
-        
+        Guid Id { get; set; }
     }
 }

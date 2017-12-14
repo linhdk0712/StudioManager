@@ -7,13 +7,13 @@ namespace Studio.Entities.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class KhoiTaoDBv2 : IMigrationMetadata
+    public sealed partial class InitDb : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(KhoiTaoDBv2));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitDb));
         
         string IMigrationMetadata.Id
         {
-            get { return "201712040645422_Khoi-Tao-DB-v2"; }
+            get { return "201712140708439_InitDb"; }
         }
         
         string IMigrationMetadata.Source

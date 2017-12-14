@@ -15,13 +15,14 @@ namespace Studio.Entities
         [Key]
         [Column(Order = 1)]
         [ForeignKey("Permission")]
-        public int PermissionId { get; set; }
+        public Guid PermissionId { get; set; }
 
         [Key]
         [Column(Order = 2)]
         [ForeignKey("StudioUser")]
-        public int UserId { get; set; }
-
+        public Guid UserId { get; set; }
+        
+        [MaxLength(500)]
         public string Description { get; set; }
 
         public virtual StudioUser StudioUser { get; set; }
