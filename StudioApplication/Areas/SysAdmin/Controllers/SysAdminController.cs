@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Web.Helpers;
-using System.Web.Mvc;
+﻿using Dapper;
 using Studio.Services;
 using StudioApplication.Areas.SysAdmin.Models;
 using StudioCommon;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlTypes;
+using System.IO;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 
 namespace StudioApplication.Areas.SysAdmin.Controllers
 {
@@ -16,17 +18,20 @@ namespace StudioApplication.Areas.SysAdmin.Controllers
         private readonly IStudioActiveService _studioActiveService;
         private readonly IStudioService _studioService;
         private readonly IEncrypt _encrypt;
+
         public SysAdminController(IStudioActiveService studioActiveService, IStudioService studioService, IEncrypt encrypt)
         {
             _studioActiveService = studioActiveService;
             _studioService = studioService;
             _encrypt = encrypt;
         }
+
         // GET: SysAdmin/SysAdmin
         public ActionResult Index()
         {
             return View();
         }
+
         [HttpGet]
         public JsonResult GetStudioActive()
         {
@@ -37,6 +42,7 @@ namespace StudioApplication.Areas.SysAdmin.Controllers
                 status = true
             }, JsonRequestBehavior.AllowGet);
         }
+
         [AllowAnonymous]
         public JsonResult Edit(Guid id)
         {
@@ -44,9 +50,10 @@ namespace StudioApplication.Areas.SysAdmin.Controllers
             var result = model.FirstOrDefault(x => x.StudioActiveId == id);
             return Json(new
             {
-               status = result
+                status = result
             }, JsonRequestBehavior.AllowGet);
         }
+
         [AllowAnonymous]
         public JsonResult Delete(int id)
         {
@@ -56,6 +63,49 @@ namespace StudioApplication.Areas.SysAdmin.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult Create(NewStudioViewModel model, HttpPostedFileBase logo)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            var pathLogo = Path.Combine(Server.MapPath("~/Content/Images"), logo.FileName);
+            //var createBy = Session["systemadmin"].ToString();
+            var createBy = "";
+            const string SQL_QUERY_INSERT = "InsertNewStudio";
+            var parameters = new DynamicParameters();
+            parameters.Add("StudioId", Guid.NewGuid());
+            parameters.Add("StudioCode", model.StudioCode);
+            parameters.Add("StudioName", model.StudioName);
+            parameters.Add("SkypeName", model.SkypeName);
+            parameters.Add("PhoneNumber", model.PhoneNumber);
+            parameters.Add("Email", model.Email);
+            parameters.Add("Address", model.Address);
+            parameters.Add("Logo", logo.FileName);
+            parameters.Add("Status", model.Status);
+            parameters.Add("CreateDate", DateTime.Now);
+            parameters.Add("CreateBy", createBy);
+            var result = _studioService.Create(SQL_QUERY_INSERT, parameters, commandType: CommandType.StoredProcedure);
+            if (result == 0)
+            {
+               ViewBag.message = "Chưa thêm được dữ liệu";
+                return View();
+            }
+            logo.SaveAs(pathLogo);
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult CreateActiveStudio()
+        {
+            return View();
+        }
         private IEnumerable<StudioActiveViewModel> GetStudioActiveViewModels()
         {
             const string SQL_STUDIO_ACTIVE = "select * from StudioActives";
@@ -79,6 +129,28 @@ namespace StudioApplication.Areas.SysAdmin.Controllers
                              ActiveTo = a.ActiveTo
                          };
             return result;
+        }
+
+        public JsonResult GetStudioWithCode(string code)
+        {
+            var check = false;
+            const string SQL_STUDIO_CODE = @"SELECT [StudioId],[StudioCode],[StudioName],[SkypeName],[PhoneNumber],[Email],[Address],[Logo],[CreateDate]
+                                            ,[CreateBy]
+                                            ,[Status]
+                                            ,[ModifyDate]
+                                            ,[ModifyBy]
+                                            FROM [SocialGoal].[dbo].[Studios] WHERE StudioCode = @StudioCode";
+            var param = new DynamicParameters();
+            param.Add("@StudioCode",code);
+            var result = _studioService.GetEntity(SQL_STUDIO_CODE,param,commandType:CommandType.Text);
+            if (result != null)
+            {
+                check = true;
+            }
+            return Json(new
+            {
+                status = check
+            }, JsonRequestBehavior.AllowGet);
         }
     }
 }

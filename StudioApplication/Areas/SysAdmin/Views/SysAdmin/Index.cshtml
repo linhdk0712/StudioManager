@@ -2,16 +2,16 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h4>Danh sách ảnh viện</h4>
 
 <div class="container-fluid tablecontainer">
     <div class="col-md-12">
-        <a class="btn btn-success" style="margin-bottom: 20px; margin-top: 20px;">Add New Studio</a>
+        <a class="w3-btn w3-green" href="@Url.Action("Create","SysAdmin")" style="margin-bottom: 20px; margin-top: 20px;">Add New Studio</a>
+        <a class="w3-btn w3-green" href="@Url.Action("CreateActiveStudio","SysAdmin")" style="margin-bottom: 20px; margin-top: 20px;">Active Studio</a>
     </div>
 
-    <table class="table table-bordered " id="StudioActive">
+    <table class="table table-responsive" id="StudioActive">
         <thead>
-            <tr>
+            <tr class="info text-justify">
                 <th>StudioName</th>
                 <th>PhoneNumber</th>
                 <th>Email</th>
@@ -42,17 +42,17 @@
                     { "data": "ActiveFrom", "autoWidth": true },
                     { "data": "ActiveTo", "autoWidth": true },
                     {
-                        "data": "StudioActiveId",
+                        "data": "StudioId",
                         "width": "50px",
                         "render": function(data) {
-                            return '<a class="btn btn-warning" href="@Url.Action("Edit","SysAdmin")/' + data + '">Edit</a>';
+                            return '<a class="w3-btn w3-green" href="@Url.Action("Edit","SysAdmin")/' + data + '">Edit</a>';
                         }
                     },
                     {
-                        "data": "StudioActiveId",
+                        "data": "StudioId",
                         "width": "50px",
                         "render": function(data) {
-                            return '<a class="popup btn btn-danger" href="@Url.Action("Delete","SysAdmin")/' + data + '">Delete</a>';
+                            return '<a class="popup w3-btn w3-red" href="@Url.Action("Delete","SysAdmin")/' + data + '">Delete</a>';
                         }
                     }
                 ]

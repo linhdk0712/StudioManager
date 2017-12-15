@@ -185,6 +185,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Areas\StudioAdmin\StudioAdminAreaRegistration.cs" />
     <Compile Include="Areas\SysAdmin\Controllers\SysAdminController.cs" />
+    <Compile Include="Areas\SysAdmin\Models\NewStudioViewModel.cs" />
     <Compile Include="Areas\SysAdmin\Models\StudioActiveViewModel.cs" />
     <Compile Include="Areas\SysAdmin\SysAdminAreaRegistration.cs" />
     <Compile Include="Common\EncryptUrl.cs" />
@@ -262,6 +263,8 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Areas\SysAdmin\Views\SysAdmin\Create.cshtml" />
+    <Content Include="Areas\SysAdmin\Views\SysAdmin\CreateActiveStudio.cshtml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
@@ -280,6 +283,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\mustache.min.js" />
+    <Content Include="Scripts\notify.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
@@ -305,6 +309,7 @@
     <Folder Include="Areas\StudioAdmin\Models\" />
     <Folder Include="Areas\StudioAdmin\Views\Shared\" />
     <Folder Include="Areas\SysAdmin\Views\Shared\" />
+    <Folder Include="Content\Images\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

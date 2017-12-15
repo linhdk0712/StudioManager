@@ -8,9 +8,11 @@
     @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
     <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+@*<div class="navbar navbar-inverse navbar-fixed-top">*@
+    <div class="w3-bar w3-green w3-border w3-card-4 w3-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -18,7 +20,9 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
+               
                 @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -29,7 +33,7 @@
             </div>
         </div>
     </div>
-    <div class="container body-content">
+    <div class="w3-container body-content">
         @RenderBody()
         <hr />
         <footer>
@@ -41,14 +45,12 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/mustache")
     @Scripts.Render("~/bundles/pagination")
-
-<script src="~/Scripts/jquery.validate.min.js"></script>
-
-<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
-
-<script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
-  
+    <script src="~/Scripts/notify.min.js"></script>
+
     @RenderSection("scripts", required: false)
 </body>
 </html>
